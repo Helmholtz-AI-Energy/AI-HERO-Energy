@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#SBATCH --job-name=AI-HERO_energy_baseline_training
+#SBATCH --job-name=AI-HERO-Energy_baseline_training
 #SBATCH --partition=haicore-gpu4
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
@@ -15,5 +15,5 @@ group_workspace=/hkfs/work/workspace/scratch/bh6321-${group_name}
 data_dir=/hkfs/work/workspace/scratch/bh6321-energy_challenge/data
 
 source ${group_workspace}/energy_baseline_env/bin/activate
-python -u ${group_workspace}/AI-HERO_Energy/training.py --data_dir ${data_dir} --save_dir ${PWD}
+python -u ${group_workspace}/AI-HERO-Energy/training.py --data_dir ${data_dir} --save_dir ${PWD}
 

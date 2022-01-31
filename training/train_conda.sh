@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#SBATCH --job-name=AI-HERO_energy_baseline_training_conda
+#SBATCH --job-name=AI-HERO-Energy_baseline_training_conda
 #SBATCH --partition=haicore-gpu4
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
@@ -16,4 +16,4 @@ data_dir=/hkfs/work/workspace/scratch/bh6321-energy_challenge/data
 
 source /hkfs/work/workspace/scratch/im9193-conda/conda/etc/profile.d/conda.sh
 conda activate ${group_workspace}/energy_baseline_conda_env
-python -u ${group_workspace}/AI-HERO_Energy/training.py --data_dir ${data_dir} --save_dir ${PWD}
+python -u ${group_workspace}/AI-HERO-Energy/training.py --data_dir ${data_dir} --save_dir ${PWD}
