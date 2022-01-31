@@ -1,8 +1,8 @@
-AI-HERO Energy Challenge on energy efficient AI - Seven day forecast of electric load
+AI-HERO Energy Challenge on energy efficient AI - 7-day forecast of electric load
 =============================================================================================
 
 This repository provides the code for the baseline. It contains a full training pipeline in Pytorch
-including dataloading, training an LSTM and evaluating.
+including data loading, training an LSTM and evaluating.
 You are free to clone this baseline and build from here.
 The repository also includes necessary bash scripts for submitting to HAICORE. 
 
@@ -17,7 +17,7 @@ Table of contents
    * [Data](#data)
    * [Structure of the Skeleton Code](#structure-of-the-skeleton-code)
    * [HAICORE Setup](#haicore-setup)
-     * [Clone from Github](#clone-the-skeleton-code)
+     * [Clone from GitHub](#clone-the-skeleton-code)
      * [Virtual Environment](#set-up-your-environment)
        * [venv](#venv-allows-python-36-or-38)
        * [conda](#conda-experimental)
@@ -32,7 +32,7 @@ The train and validation data is available in the following workspace on the clu
 
     /hkfs/work/workspace/scratch/bh6321-energy_challenge/data
 
-It consists of electric load data from 14 cities in Niedersachsen. Each dataset is a csv-file with the columns:
+It consists of electric load data from 14 cities in Lower Saxony. Each dataset is a csv-file with the columns:
 * Load [MWh]: Integrated hourly load
 * Time [s]: UTC time stamp in the format "yyyy-mm-dd hh:mm:ss"
 * City: [City identifier](#list-of-city-identifiers)
@@ -41,7 +41,7 @@ The challenge involves making daily 7-day forecasts with a rolling window approa
 The datasets are continuous, complete (NaN-free) lists of hourly load sorted first by city and then by time stamp.
 The training data covers the years 2014-2017 (368,256 hours), the validation data covers 2018 and test data 2019 (122,640 hours each).
 Thus, most hours are used multiple times as input data and label and need to be loaded appropriately 
-(i.e. for each possible 14-day period beginning at midnight, where the first half is input and the secon the label). 
+(i.e. for each possible 336h (14-day) period, where the first half is input and the second the label). 
 The `CustomLoadDataset` class from this repository in `dataset.py` already implements the correct loading of the data.
 Test data is not available during the development.
 
@@ -52,8 +52,8 @@ The content of the different files is as follows:
 
 - `dataset.py`: Implements a Pytorch Dataset that loads the challenge data
 - `model.py`: Implements an LSTM network
-- `train.py`: Implements a training pipeline
-- `run_eval.py`: Implements inference for a given model and saves predictions as csv
+- `training.py`: Implements a training pipeline
+- `forecast.py`: Implements inference for a given model and saves predictions as csv
 - `training`: directory holding bash scripts for submitting on HAICORE, see [Training on HAICORE](#training-on-haicore)
 - `evaluation`: directory holding bash scripts for testing the evaluation on HAICORE, see [Test your Submission](#test-the-final-evaluation)
 
@@ -176,9 +176,9 @@ Nevertheless, you can test if your created csv-file works by running the appropr
 For that you need to adapt the group workspace in line 13. Both scripts write their outputs to your current  directory by default.
 
 For calculating the groups' final scores the mentioned files need to work. That means, that your workspace needs to contain the virtual environment that is loaded, the code as well as model weights.
-To make the submission FAIR you additionally have to provide your code on Github (with a requirements file that reproduces your full environment), and your weights uploaded to Zenodo.
+To make the submission FAIR you additionally have to provide your code on GitHub (with a requirements file that reproduces your full environment), and your weights uploaded to Zenodo.
 You can complete your submission here: https://ai-hero-hackathon.de/.
-We will verify your results by also downloading everything from Github and Zenodo to a clean new workspace and check whether the results match.
+We will verify your results by also downloading everything from GitHub and Zenodo to a clean new workspace and check whether the results match.
 
 # List of city identifiers
 'h' : Hannover,  'bs' : Braunschweig, 'ol' : Oldenburg , 'os': Osnabrück, 'wob' : Wolfsburg, 'go' : Göttingen , 'sz' : Salzgitter, 'hi' : Hildesheim , 'del' : Delmenhorst, 'lg': Lüneburg,  'whv'  : Wilhelmshaven, 'ce' : Celle, 'hm' : Hameln, 'el' : Lingen(Ems)
