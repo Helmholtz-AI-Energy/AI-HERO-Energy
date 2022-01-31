@@ -33,7 +33,7 @@ The train and validation data is available in the following workspace on the clu
     /hkfs/work/workspace/scratch/bh6321-energy_challenge/data
 
 It consists of electric load data from 14 cities in Niedersachsen. Each dataset is a csv-file with the columns:
-* Load [MW]: Integrated hourly load
+* Load [MWh]: Integrated hourly load
 * Time [s]: UTC time stamp in the format "yyyy-mm-dd hh:mm:ss"
 * City: [City identifier](#list-of-city-identifiers)
 

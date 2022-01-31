@@ -10,7 +10,7 @@ class CustomLoadDataset(Dataset):
         self.forecast_horizon = forecast_horizon
 
         # Load Data from csv to Pandas Dataframe
-        raw_data = pd.read_csv(data_file, delimiter=',')['Load [MW]'].to_numpy()
+        raw_data = pd.read_csv(data_file, delimiter=',')['Load [MWh]'].to_numpy()
         self.dataset = torch.Tensor(raw_data)
 
         # Normalize Data to [0,1]
