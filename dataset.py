@@ -22,12 +22,10 @@ class CustomLoadDataset(Dataset):
         self.dataset = self.dataset.to(device)
 
     def __len__(self):
-        return int(self.dataset.shape[0] + 24 - self.historic_window - self.forecast_horizon) // 24
+        return int(self.dataset.shape[0] - self.historic_window - self.forecast_horizon)
 
     def __getitem__(self, idx):
         # translate idx (day nr) to array index
-        idx *= 24
-
         x = self.dataset[idx:idx+self.historic_window].unsqueeze(dim=1)
         y = self.dataset[idx+self.historic_window: idx+self.historic_window + self.forecast_horizon].unsqueeze(dim=1)
 
