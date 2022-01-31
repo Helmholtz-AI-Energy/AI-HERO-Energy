@@ -9,7 +9,8 @@ from torch.utils.data import DataLoader
 from dataset import CustomLoadDataset
 
 
-baseline_mae = 12.357307788348896
+baseline_mae = 12.06523170947997
+
 
 
 def evaluate(forecasts: torch.Tensor, target: torch.Tensor, reference: float = baseline_mae) -> float:
