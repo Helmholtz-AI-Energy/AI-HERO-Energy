@@ -166,6 +166,7 @@ evaluation on HAICORE like this:
     sbatch evaluation/forecast.sh
 
 In the bash scripts you again need to adapt the paths to your workspace and also insert the correct model weights path.
+Each line of the csv-file should contain the 7x24=168 values of a single forecast without a header.
 
 After the csv is created, the MASE is calculated using `evaluation.py`, which again will use the validation set during development.
 You do not need to adapt this file, for evaluating on the test set the organizers will use their own copy of this file.
@@ -173,7 +174,7 @@ Nevertheless, you can test if your created csv-file works by running the appropr
 
      sbatch evaluation/eval.sh
 
-For that you need to adapt the group workspace in line 13. Both scripts write their outputs to your current  directory by default.
+For that you need to adapt the group workspace in line 13. Both scripts write their outputs to your current directory by default.
 
 For calculating the groups' final scores the mentioned files need to work. That means, that your workspace needs to contain the virtual environment that is loaded, the code as well as model weights.
 To make the submission FAIR you additionally have to provide your code on GitHub (with a requirements file that reproduces your full environment), and your weights uploaded to Zenodo.
