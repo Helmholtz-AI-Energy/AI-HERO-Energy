@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from dataset import CustomLoadDataset
 
 
-baseline_mae = 12.06523170947997
+baseline_mae = 9.538227766478586
 
 
 
