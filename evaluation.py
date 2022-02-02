@@ -24,8 +24,8 @@ def evaluate(forecasts: torch.Tensor, target: torch.Tensor, reference: float = b
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("--forecast_path", type=str,
-                        default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/AI-HERO/energy_baseline.pt',
-                        help="path of the saved forecasts")  # TODO: adapt to your model weights path
+                        default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/AI-HERO/forecasts.csv',
+                        help="path of the saved forecasts")  # TODO: adapt to your forecasts path
     parser.add_argument("--save_dir", type=str, help='Directory where results are saved', default='.')
     parser.add_argument("--data_dir", type=str, help='Directory containing the reference data',
                         default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/data')
