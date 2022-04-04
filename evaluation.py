@@ -12,7 +12,6 @@ from dataset import CustomLoadDataset
 baseline_mae = 9.538227766478586
 
 
-
 def evaluate(forecasts: torch.Tensor, target: torch.Tensor, reference: float = baseline_mae) -> float:
     assert forecasts.size() == target.size(), f"Forcast shape: {forecasts.size()} not matching target: {target.size()}!"
     criterion = L1Loss()

@@ -13,9 +13,9 @@ class CustomLoadDataset(Dataset):
         raw_data = pd.read_csv(data_file, delimiter=',')
 
         # Group data by city
-        groups = raw_data.groupby('City')
+        groups = raw_data.groupby('Country')
         cities = []
-        for city, df in groups['Load [MWh]']:
+        for city, df in groups['Load [MW]']:
             cities.append(torch.tensor(df.to_numpy(), dtype=torch.float))
 
         # Generate data tensor and metadata
@@ -23,11 +23,12 @@ class CustomLoadDataset(Dataset):
         self.city_nr = self.dataset.shape[0]
         self.samples_per_city = self.dataset.shape[1] - self.historic_window - self.forecast_horizon
 
-        # Normalize Data to [0,1]
+        # Normalize each city to [0,1]
         if normalize is True:
-            self.data_min = torch.min(self.dataset)
-            self.data_max = torch.max(self.dataset)
-            self.dataset = (self.dataset - self.data_min) / (self.data_max - self.data_min)
+            self.data_min = torch.min(self.dataset, dim=-1)[0]
+            self.data_max = torch.max(self.dataset, dim=-1)[0]
+            normlization = (self.data_max - self.data_min).unsqueeze(-1).unsqueeze(-1)
+            self.dataset = (self.dataset - self.data_min.unsqueeze(-1).unsqueeze(-1)) / normlization
 
         self.dataset = self.dataset.to(device)
 
