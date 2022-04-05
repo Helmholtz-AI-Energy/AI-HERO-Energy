@@ -29,11 +29,12 @@ def forecast(forecast_model, forecast_set, device):
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("--weights_path", type=str,
-                        default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/AI-HERO/energy_baseline.pt',
+                        default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/AI-HERO_Energy/energy_baseline.pt',
                         help="Model weights path")  # TODO: adapt to your model weights path
     parser.add_argument("--save_dir", type=str, help='Directory where weights and results are saved', default='.')
     parser.add_argument("--data_dir", type=str, help='Directory containing the data you want to predict',
                         default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/data')
+    parser.add_argument("--force_cpu", action='store_true', default=False)
     args = parser.parse_args()
 
     save_dir = args.save_dir
@@ -42,7 +43,11 @@ if __name__ == '__main__':
     weights_path = args.weights_path
 
     # load model with pretrained weights
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if args.force_cpu:
+        device = torch.device('cpu')
+    else:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
     # TODO: adjust arguments according to your model
     model = SubmittedModel(input_size=1, hidden_size=48, output_size=1, num_layer=1, device=device)
     model.load_state_dict(torch.load(weights_path, map_location=device))
@@ -55,10 +60,9 @@ if __name__ == '__main__':
     testset = CustomLoadDataset(data_file, 7*24, 7*24, device=device)
 
     # run inference
-    normalized_forecasts = forecast(model, testset, device)
+    forecasts = forecast(model, testset, device)
 
-    # remove normalization and convert to DataFrame
-    forecasts = testset.revert_normalization(normalized_forecasts)
+    # convert to DataFrame
     df = DataFrame(forecasts.to(torch.device('cpu')).numpy())
 
     # save to csv

@@ -45,5 +45,3 @@ class CustomLoadDataset(Dataset):
 
         return x, y
 
-    def revert_normalization(self, data):
-        return data * (self.data_max - self.data_min) + self.data_min

@@ -9,21 +9,17 @@ from torch.utils.data import DataLoader
 from dataset import CustomLoadDataset
 
 
-baseline_mae = 9.538227766478586
-
-
-def evaluate(forecasts: torch.Tensor, target: torch.Tensor, reference: float = baseline_mae) -> float:
+def evaluate(forecasts: torch.Tensor, target: torch.Tensor) -> float:
     assert forecasts.size() == target.size(), f"Forcast shape: {forecasts.size()} not matching target: {target.size()}!"
     criterion = L1Loss()
     mae = criterion(forecasts, target)
-    mase = mae.item() / reference
-    return mase
+    return mae.item()
 
 
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("--forecast_path", type=str,
-                        default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/AI-HERO/forecasts.csv',
+                        default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/AI-HERO_Energy/forecasts.csv',
                         help="path of the saved forecasts")  # TODO: adapt to your forecasts path
     parser.add_argument("--save_dir", type=str, help='Directory where results are saved', default='.')
     parser.add_argument("--data_dir", type=str, help='Directory containing the reference data',
@@ -43,7 +39,7 @@ if __name__ == '__main__':
     test_file = os.path.join(data_dir, 'test.csv')
     valid_file = os.path.join(data_dir, 'valid.csv')
     data_file = test_file if os.path.exists(test_file) else valid_file
-    testset = CustomLoadDataset(data_file, 7*24, 7*24, normalize=False)
+    testset = CustomLoadDataset(data_file, 7*24, 7*24)
     testloader = DataLoader(testset, len(testset), shuffle=False)
 
     for _, target in testloader:
