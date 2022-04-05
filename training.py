@@ -14,7 +14,7 @@ forecast_days = 7
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument("--data_dir", default="~/Data/AI-Hero/", type=str)
+    parser.add_argument("--data_dir", default="~/Data/entso-e/", type=str)
     parser.add_argument("--num_epochs", type=int, default=30)
     parser.add_argument("--save_dir", default=None, help="saves the model, if path is provided")
     parser.add_argument("--historic_window", type=int, default=7*24, help="input time steps in hours")
@@ -22,11 +22,14 @@ def main():
     parser.add_argument("--hidden_size", type=int, default=48, help="size of the internal state")
     parser.add_argument("--learning_rate", type=float, default=1e-3)
     parser.add_argument("--batch_size", type=int, default=64)
-    parser.add_argument("--quicktest", action='store_true')
+    parser.add_argument("--force_cpu", action='store_true', default=False)
 
     args = parser.parse_args()
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if args.force_cpu:
+        device = torch.device("cpu")
+    else:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f'Using {device} device')
 
     # Forecast Parameters

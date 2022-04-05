@@ -27,8 +27,8 @@ class CustomLoadDataset(Dataset):
         if normalize is True:
             self.data_min = torch.min(self.dataset, dim=-1)[0]
             self.data_max = torch.max(self.dataset, dim=-1)[0]
-            normlization = (self.data_max - self.data_min).unsqueeze(-1).unsqueeze(-1)
-            self.dataset = (self.dataset - self.data_min.unsqueeze(-1).unsqueeze(-1)) / normlization
+            normlization = (self.data_max - self.data_min).unsqueeze(-1)
+            self.dataset = (self.dataset - self.data_min.unsqueeze(-1)) / normlization
 
         self.dataset = self.dataset.to(device)
 
