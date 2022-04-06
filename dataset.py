@@ -14,14 +14,14 @@ class CustomLoadDataset(Dataset):
 
         # Group data by city
         groups = raw_data.groupby('Country')
-        cities = []
-        for city, df in groups['Load [MW]']:
-            cities.append(torch.tensor(df.to_numpy(), dtype=torch.float))
+        countries = []
+        for country, df in groups['Load [MW]']:
+            countries.append(torch.tensor(df.to_numpy(), dtype=torch.float))
 
         # Generate data tensor and metadata
-        self.dataset = torch.stack(cities)
-        self.city_nr = self.dataset.shape[0]
-        self.samples_per_city = self.dataset.shape[1] - self.historic_window - self.forecast_horizon
+        self.dataset = torch.stack(countries)
+        self.country_nr = self.dataset.shape[0]
+        self.samples_per_country = self.dataset.shape[1] - self.historic_window - self.forecast_horizon
 
         # Normalize each city to [0,1]
         if normalize is True:
@@ -33,14 +33,14 @@ class CustomLoadDataset(Dataset):
         self.dataset = self.dataset.to(device)
 
     def __len__(self):
-        return self.city_nr * self.samples_per_city
+        return self.country_nr * self.samples_per_country
 
     def __getitem__(self, idx):
         # translate idx (day nr) to array index
-        city_idx = idx // self.samples_per_city
-        hour_idx = idx % self.samples_per_city
-        x = self.dataset[city_idx, hour_idx:hour_idx+self.historic_window].unsqueeze(dim=1)
-        y = self.dataset[city_idx, hour_idx+self.historic_window:
+        country_idx = idx // self.samples_per_country
+        hour_idx = idx % self.samples_per_country
+        x = self.dataset[country_idx, hour_idx:hour_idx+self.historic_window].unsqueeze(dim=1)
+        y = self.dataset[country_idx, hour_idx+self.historic_window:
                                    hour_idx+self.historic_window + self.forecast_horizon].unsqueeze(dim=1)
 
         return x, y
