@@ -27,6 +27,7 @@ def forecast(forecast_model, forecast_set, device):
 
 
 if __name__ == '__main__':
+    print("START")
     parser = ArgumentParser()
     parser.add_argument("--weights_path", type=str,
                         default='/hkfs/work/workspace/scratch/bh6321-energy_challenge/AI-HERO_Energy/energy_baseline.pt',

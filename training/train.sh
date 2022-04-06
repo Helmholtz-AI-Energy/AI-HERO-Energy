@@ -15,5 +15,7 @@ group_workspace=/hkfs/work/workspace/scratch/bh6321-${group_name}
 data_dir=/hkfs/work/workspace/scratch/bh6321-energy_challenge/data
 
 source ${group_workspace}/energy_baseline_env/bin/activate
-python -u ${group_workspace}/AI-HERO-Energy/training.py --data_dir ${data_dir} --save_dir ${PWD}
+
+nvidia-smi --query-gpu=timestamp,index,power.draw --format=csv --loop-ms=500 -f job_nvidia_smi.csv &
+python -u ${group_workspace}/AI-HERO-Energy/training.py --data_dir ${data_dir} --save_dir ${PWD} --force_cpu
 
