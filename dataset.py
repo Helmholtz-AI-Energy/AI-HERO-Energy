@@ -14,12 +14,12 @@ class CustomLoadDataset(Dataset):
 
         # Group data by city
         groups = raw_data.groupby('Country')
-        cities = []
-        for city, df in groups['Load [MW]']:
-            cities.append(torch.tensor(df.to_numpy(), dtype=torch.float))
+        countries = []
+        for country, df in groups['Load [MW]']:
+            countries.append(torch.tensor(df.to_numpy(), dtype=torch.float))
 
         # Generate data tensor and metadata
-        self.dataset = torch.stack(cities)
+        self.dataset = torch.stack(countries)
         self.city_nr = self.dataset.shape[0]
         self.samples_per_city = self.dataset.shape[1] - self.historic_window - self.forecast_horizon
 
