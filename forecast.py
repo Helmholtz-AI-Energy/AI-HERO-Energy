@@ -47,6 +47,7 @@ if __name__ == '__main__':
         device = torch.device('cpu')
     else:
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f'Using {device} device')
 
     # TODO: adjust arguments according to your model
     model = SubmittedModel(input_size=1, hidden_size=48, output_size=1, num_layer=1, device=device)
