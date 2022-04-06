@@ -23,7 +23,7 @@ class CustomLoadDataset(Dataset):
         self.country_nr = self.dataset.shape[0]
         self.samples_per_country = self.dataset.shape[1] - self.historic_window - self.forecast_horizon
 
-        # Normalize each city to [0,1]
+        # Normalize each country to [0,1]
         if normalize is True:
             self.data_min = torch.min(self.dataset, dim=-1)[0]
             self.data_max = torch.max(self.dataset, dim=-1)[0]
@@ -41,7 +41,7 @@ class CustomLoadDataset(Dataset):
         hour_idx = idx % self.samples_per_country
         x = self.dataset[country_idx, hour_idx:hour_idx+self.historic_window].unsqueeze(dim=1)
         y = self.dataset[country_idx, hour_idx+self.historic_window:
-                                   hour_idx+self.historic_window + self.forecast_horizon].unsqueeze(dim=1)
+                                      hour_idx+self.historic_window + self.forecast_horizon].unsqueeze(dim=1)
 
         return x, y
 
