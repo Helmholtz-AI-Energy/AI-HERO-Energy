@@ -56,9 +56,12 @@ if __name__ == '__main__':
     model.eval()
 
     # dataloader
-    test_file = os.path.join(data_dir, 'test.csv')
-    valid_file = os.path.join(data_dir, 'valid.csv')
-    data_file = test_file if os.path.exists(test_file) else valid_file
+    if os.path.isfile(data_dir):
+        data_file = data_dir
+    else:
+        test_file = os.path.join(data_dir, 'test.csv')
+        valid_file = os.path.join(data_dir, 'valid.csv')
+        data_file = test_file if os.path.exists(test_file) else valid_file
     testset = CustomLoadDataset(data_file, 7*24, 7*24, device=device)
 
     # run inference
